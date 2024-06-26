@@ -223,7 +223,7 @@ export default function News() {
             </DialogActions>
           </Dialog>
 
-          <Dialog fullWidth maxWidth="sm" open={showConfirm}>
+          <Dialog fullWidth maxWidth="xs" open={showConfirm}>
             <DialogTitle>
               <Typography fontWeight={600}>Add - Edit News</Typography>
             </DialogTitle>

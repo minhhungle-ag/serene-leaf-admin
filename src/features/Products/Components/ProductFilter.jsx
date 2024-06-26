@@ -1,33 +1,23 @@
 import { Box, Stack } from '@mui/material'
-import { SortField } from 'components/FormFields/SortField'
 import { SearchBox } from 'components/FormFields/SearchBox'
+import { SortField } from 'components/FormFields/SortField'
+import { categoryOptionList } from 'constants/common'
 
-const optionList = [
-  {
-    label: 'ASC',
-    value: 'asc',
-  },
-  {
-    label: 'DESC',
-    value: 'desc',
-  },
-]
-
-export function NewsFilter({ params, onFilterChange }) {
+export function ProductFilter({ params, onFilterChange }) {
   function handleSearchChange(value) {
     const newParams = {
       ...params,
       searchKey: value,
     }
-    onFilterChange(newParams)
+    onFilterChange?.(newParams)
   }
 
   function handleSortOrderChange(value) {
     const newParams = {
       ...params,
-      order: value,
+      category: value === 'all' ? '' : value,
     }
-    onFilterChange(newParams)
+    onFilterChange?.(newParams)
   }
 
   return (
@@ -42,9 +32,9 @@ export function NewsFilter({ params, onFilterChange }) {
         <Box sx={{ width: 1 / 4 }}>
           <Box>
             <SortField
-              defaultValue="asc"
               hideOptionAll
-              optionList={optionList}
+              defaultValue="all"
+              optionList={categoryOptionList}
               onChange={(value) => handleSortOrderChange(value)}
             />
           </Box>

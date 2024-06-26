@@ -1,8 +1,10 @@
 import { Delete, Edit } from '@mui/icons-material'
+import { Chip, alpha } from '@mui/material'
 import Box from '@mui/material/Box'
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
+import { numberToCurrencyUSD } from 'utils/common'
 
-export function NewsList({
+export function ProductList({
   params,
   data,
   pagination,
@@ -32,6 +34,7 @@ export function NewsList({
       field: 'imageUrl',
       headerName: 'Image',
       width: 200,
+
       renderCell: ({ row }) => {
         return (
           <>
@@ -41,24 +44,78 @@ export function NewsList({
       },
     },
     {
-      field: 'author',
-      headerName: 'Author',
+      field: 'name',
+      headerName: 'Name',
       flex: 1,
     },
+
     {
-      field: 'title',
-      headerName: 'Title',
-      flex: 1,
+      field: 'category',
+      headerName: 'Category',
+      width: 150,
+      renderCell: ({ row }) => (
+        <Box
+          sx={{
+            '.MuiChip-root': {
+              borderRadius: '8px !important',
+              width: '100%',
+            },
+          }}
+        >
+          <Chip
+            size="small"
+            sx={{
+              fontWeight: 600,
+              color: (theme) => theme.palette.info.main,
+              bgcolor: (theme) => alpha(theme.palette.info.main, 0.1),
+            }}
+            label={row.category}
+          />
+        </Box>
+      ),
+    },
+    {
+      field: 'price',
+      headerName: 'price',
+      width: 100,
+      renderCell: ({ row }) => (
+        <Box
+          sx={{
+            '.MuiChip-root': {
+              borderRadius: '8px !important',
+              width: '100%',
+            },
+          }}
+        >
+          <Chip
+            size="small"
+            sx={{
+              fontWeight: 600,
+              color: (theme) => theme.palette.error.main,
+              bgcolor: (theme) => alpha(theme.palette.error.main, 0.1),
+            }}
+            label={numberToCurrencyUSD(parseInt(row?.price))}
+          />
+        </Box>
+      ),
+    },
+    {
+      field: 'quantity',
+      headerName: 'Quantity',
+      width: 100,
+      align: 'center',
     },
     {
       field: 'shortDescription',
       headerName: 'Short Description',
       flex: 1,
+      minWidth: 150,
     },
     {
       field: 'description',
       headerName: 'Description',
       flex: 1,
+      minWidth: 150,
     },
     {
       field: 'actions',
@@ -99,7 +156,7 @@ export function NewsList({
     <Box
       sx={{
         width: '100%',
-        height: 608,
+        height: 708,
 
         '.MuiDataGrid-root': {
           borderRadius: 0,
@@ -123,7 +180,7 @@ export function NewsList({
         rows={rows}
         columns={columns}
         pagination={true}
-        rowHeight={100}
+        rowHeight={150}
         pageSizeOptions={[5, 10, 15, 25, 50, 100]}
         disableRowSelectionOnClick
         paginationMode="server"

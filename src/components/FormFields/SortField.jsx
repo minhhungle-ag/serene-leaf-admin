@@ -16,12 +16,12 @@ export function SortField({
   }
 
   return (
-    <FormControl fullWidth size="small">
+    <FormControl fullWidth size="small" sx={{ minWidth: 200 }}>
       <InputLabel>{label}</InputLabel>
       <Select value={value} label={label} onChange={handleChange}>
-        {!hideOptionAll && <MenuItem value="">Tất cả</MenuItem>}
-        {optionList?.map((option) => (
-          <MenuItem value={option.value} key={option.value}>
+        {!hideOptionAll && <MenuItem value="">ALL</MenuItem>}
+        {optionList?.map((option, idx) => (
+          <MenuItem value={option.value} key={idx}>
             {option.label}
           </MenuItem>
         ))}

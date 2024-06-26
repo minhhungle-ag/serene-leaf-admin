@@ -9,11 +9,7 @@ import { SnackbarProvider } from 'notistack'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-let theme = createTheme({
-  typography: {
-    fontSize: 13,
-  },
-})
+let theme = createTheme({})
 
 theme = responsiveFontSizes(theme)
 
