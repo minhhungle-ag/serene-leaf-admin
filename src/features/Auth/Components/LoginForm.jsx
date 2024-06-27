@@ -1,36 +1,81 @@
-import { Box, Button, Divider, Stack } from '@mui/material'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { LoadingButton } from '@mui/lab'
+import { Box, Divider, IconButton, InputAdornment, Stack } from '@mui/material'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 import { InputField } from '../../../components/FormFields/InputField'
 
-export const LoginForm = () => {
-  const { control } = useForm({
+const schema = yup.object({
+  email: yup.string().email('Invalid email format').required('Email is required'),
+  password: yup.string().required('Password is required'),
+})
+
+export function LoginForm({ onSubmit, loading }) {
+  const [showPassword, setShowPassword] = useState(false)
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       email: '',
       password: '',
     },
+
+    resolver: yupResolver(schema),
   })
+
+  const handleClickShowPassword = () => {
+    setShowPassword((x) => !x)
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
+
+  const handleFormSubmit = handleSubmit((formValues) => {
+    onSubmit?.(formValues)
+  })
+
   return (
-    <Stack component="form" noValidate spacing={3}>
+    <Stack component="form" noValidate spacing={3} onSubmit={handleFormSubmit}>
       <Box>
-        <InputField name="email" control={control} label="Email" />
+        <InputField required name="email" control={control} label="Email" />
       </Box>
 
       <Box>
-        <InputField name="password" control={control} label="Password" />
+        <InputField
+          required
+          control={control}
+          type={showPassword ? 'text' : 'password'}
+          name="password"
+          label="Password"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
       </Box>
 
       <Divider />
 
       <Stack spacing={2}>
         <Box>
-          <Button type="submit" fullWidth variant="contained">
+          <LoadingButton loading={loading} type="submit" fullWidth variant="contained">
             Submit
-          </Button>
+          </LoadingButton>
         </Box>
         <Box>
-          <Button fullWidth variant="outlined">
+          <LoadingButton loading={loading} fullWidth variant="outlined">
             Cancel
-          </Button>
+          </LoadingButton>
         </Box>
       </Stack>
     </Stack>

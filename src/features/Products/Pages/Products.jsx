@@ -113,7 +113,10 @@ export default function Products() {
           setShowAddEditProductForm(false)
           setSelectedProduct(null)
         })
-        .catch((error) => console.log(`${error}`))
+        .catch((error) => {
+          console.log(`${error}`)
+          enqueueSnackbar(`${error}`, { variant: 'error' })
+        })
         .finally(() => setLoading(false))
 
       return

@@ -10,6 +10,7 @@ export const InputField = ({
   InputLabelProps,
   label,
   placeholder,
+  required,
   ...inputProps
 }) => {
   const {
@@ -22,6 +23,7 @@ export const InputField = ({
 
   return (
     <TextField
+      required={required}
       fullWidth
       size="small"
       name={name}

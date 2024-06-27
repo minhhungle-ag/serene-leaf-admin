@@ -83,7 +83,10 @@ export default function News() {
         enqueueSnackbar(`Remove  ${news.title} successfully!`, { variant: 'success' })
         setShowConfirm(false)
       })
-      .catch()
+      .catch((error) => {
+        console.error(`${error}`)
+        enqueueSnackbar(`${error}`, { variant: 'error' })
+      })
       .finally(() => setLoading(false))
   }
 

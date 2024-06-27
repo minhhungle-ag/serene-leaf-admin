@@ -1,7 +1,36 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import { SignUpForm } from '../Components/SignUpForm'
+import { Link, useNavigate } from 'react-router-dom'
+import { authApi } from 'api/auth'
+import { useSnackbar } from 'notistack'
+import { useEffect, useState } from 'react'
 
 export function SignUp() {
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const { enqueueSnackbar } = useSnackbar()
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/dashboard')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function handleSubmit(formValues) {
+    setLoading(true)
+    authApi
+      .signUp(formValues)
+      .then((data) => {
+        enqueueSnackbar('sign up success', { variant: 'success' })
+        navigate('/auth/login')
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error}`, { variant: 'error' })
+      })
+      .finally(() => setLoading(false))
+  }
+
   return (
     <Stack justifyContent="center" alignItems="center" width="100%" height="100vh">
       <Container maxWidth="sm">
@@ -13,8 +42,24 @@ export function SignUp() {
               </Typography>
             </Box>
             <Box sx={{ p: 3 }}>
-              <SignUpForm />
+              <SignUpForm onSubmit={handleSubmit} loading={loading} />
             </Box>
+
+            <Typography sx={{ p: 3 }} color="primary">
+              I have an account.{' '}
+              <Box
+                component={Link}
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 600,
+                  fontStyle: 'italic',
+                  textDecoration: 'none',
+                }}
+                to="/auth/login"
+              >
+                Login
+              </Box>
+            </Typography>
           </Stack>
         </Box>
       </Container>

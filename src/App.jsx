@@ -6,7 +6,7 @@ import { NotFound } from 'features/NotFound/NotFound'
 export function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="dashboard" />} />
+      <Route path="/" element={<Navigate to="auth" />} />
       <Route path="auth/*" element={<Auth />} />
       <Route path="dashboard/*" element={<Main />} />
       <Route path="*" element={<NotFound />} />
