@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import { Box, Divider, IconButton, InputAdornment, Stack } from '@mui/material'
+import { AvatarUpload } from 'components/FormFields/AvatarUpload'
 import { SelectField } from 'components/FormFields/SelectField'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -33,6 +34,7 @@ export function SignUpForm({ onSubmit, loading }) {
       birthday: '',
       address: '',
       role: 'admin',
+      imageUrl: '',
     },
     resolver: yupResolver(schema),
   })
@@ -46,11 +48,26 @@ export function SignUpForm({ onSubmit, loading }) {
   }
 
   const handleFormSubmit = handleSubmit((formValues) => {
-    onSubmit?.(formValues)
+    console.log('formValues: ', formValues)
+
+    const formData = new FormData()
+
+    formData.append('email', formValues.email)
+    formData.append('password', formValues.password)
+    formData.append('fullName', formValues.fullName)
+    formData.append('birthday', formValues.birthday)
+    formData.append('address', formValues.address)
+    formData.append('role', formValues.role)
+    formData.append('imageUrl', formValues.imageUrl.file)
+    onSubmit?.(formData)
   })
 
   return (
     <Stack component="form" noValidate spacing={3} onSubmit={handleFormSubmit}>
+      <Stack justifyContent="center" alignItems="center">
+        <AvatarUpload name="imageUrl" control={control} />
+      </Stack>
+
       <Box>
         <InputField required name="email" control={control} label="Email" />
       </Box>

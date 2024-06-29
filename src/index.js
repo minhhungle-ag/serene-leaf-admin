@@ -9,7 +9,11 @@ import { SnackbarProvider } from 'notistack'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-let theme = createTheme({})
+let theme = createTheme({
+  typography: {
+    fontFamily: 'Ubuntu',
+  },
+})
 
 theme = responsiveFontSizes(theme)
 

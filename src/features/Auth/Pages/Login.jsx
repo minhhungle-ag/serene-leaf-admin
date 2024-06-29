@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
-import { authApi } from 'api/auth'
+import { authApi } from 'api/authApi'
 import { useSnackbar } from 'notistack'
 import { Link, useNavigate } from 'react-router-dom'
 import { LoginForm } from '../Components/LoginForm'

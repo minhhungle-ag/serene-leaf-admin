@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import { SignUpForm } from '../Components/SignUpForm'
 import { Link, useNavigate } from 'react-router-dom'
-import { authApi } from 'api/auth'
+import { authApi } from 'api/authApi'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 
@@ -17,10 +17,10 @@ export function SignUp() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function handleSubmit(formValues) {
+  function handleSubmit(formData) {
     setLoading(true)
     authApi
-      .signUp(formValues)
+      .signUp(formData)
       .then((data) => {
         enqueueSnackbar('sign up success', { variant: 'success' })
         navigate('/auth/login')
